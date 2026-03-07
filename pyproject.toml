@@ -1,0 +1,14 @@
+[project]
+name = "flask-debugtoolbar-extrapanels"
+version = "0.1.0"
+description = "A collection of extra panels from Flask-DebugToolbar"
+readme = "README.md"
+authors = [{ name = "Mario Hernandez", email = "mariofix@proton.me" }]
+requires-python = ">=3.10"
+dependencies = [
+    "flask-debugtoolbar>=0.16.0",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
