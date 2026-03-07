@@ -1,0 +1,38 @@
+{% if fired_signals %}
+<table>
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Time</th>
+      <th>Signal</th>
+      <th>Sender</th>
+      <th>Arguments</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for entry in fired_signals %}
+    <tr class="{{ loop.cycle('flDebugOdd', 'flDebugEven') }}">
+      <td>{{ loop.index }}</td>
+      <td style="white-space:nowrap">{{ entry.time }}</td>
+      <td><code>{{ entry.name }}</code></td>
+      <td><code>{{ entry.sender }}</code></td>
+      <td>
+        {% if entry.kwargs %}
+          <dl style="margin:0">
+            {% for k, v in entry.kwargs.items() %}
+              <dt style="font-weight:bold;display:inline">{{ k }}:</dt>
+              <dd style="display:inline;margin-left:4px"><code>{{ v }}</code></dd>
+              {% if not loop.last %}<br>{% endif %}
+            {% endfor %}
+          </dl>
+        {% else %}
+          <em style="color:#999">—</em>
+        {% endif %}
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% else %}
+<p>No signals fired during this request.</p>
+{% endif %}
