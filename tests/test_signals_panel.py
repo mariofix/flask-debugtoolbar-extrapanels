@@ -96,10 +96,12 @@ class TestSignalsPanelMeta:
     def test_nav_subtitle_many_signals(self, app):
         with app.test_request_context("/"):
             panel = SignalsPanel(jinja_env=None, context={})
-            panel._fired.extend([
-                {"name": "x", "sender": "s", "kwargs": {}, "time": "t"},
-                {"name": "y", "sender": "s", "kwargs": {}, "time": "t"},
-            ])
+            panel._fired.extend(
+                [
+                    {"name": "x", "sender": "s", "kwargs": {}, "time": "t"},
+                    {"name": "y", "sender": "s", "kwargs": {}, "time": "t"},
+                ]
+            )
             assert panel.nav_subtitle() == "2 signals fired"
 
 
@@ -130,7 +132,9 @@ class TestSignalsPanelDisconnect:
             initial_count = len(panel._fired)
             panel._disconnect_all()
 
-            flask.signals.message_flashed.send(app, message="after disconnect", category="info")
+            flask.signals.message_flashed.send(
+                app, message="after disconnect", category="info"
+            )
 
             assert len(panel._fired) == initial_count
             assert panel._connections == []
@@ -147,12 +151,14 @@ class TestSignalsPanelContent:
     def test_content_with_signals(self, app):
         with app.test_request_context("/"):
             panel = SignalsPanel(jinja_env=None, context={})
-            panel._fired.append({
-                "name": "test_signal",
-                "sender": "<Flask app>",
-                "kwargs": {"key": "value"},
-                "time": "12:00:00.000",
-            })
+            panel._fired.append(
+                {
+                    "name": "test_signal",
+                    "sender": "<Flask app>",
+                    "kwargs": {"key": "value"},
+                    "time": "12:00:00.000",
+                }
+            )
             html = panel.content()
             assert "test_signal" in html
             assert "12:00:00.000" in html
